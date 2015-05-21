@@ -1,0 +1,22 @@
+Planering av alban.hs, Haskell-implementering av Alban
+
+* Albans tillstånd kan beskrivas av ett begränsat antal värden
+- SPI-registren
+- infrekvens
+- pinnen MUTE
+- temperatur
+- och några som är av mindre betydelse, och inte behöver modelleras
+  - matningsspänning
+  - processspridning
+
+SPI-registren är av olika betydelse. Vissa värden kan man mer eller mindre strunta i. 
+- VCO_FR beror bara på VCO_F
+Men frågan är vad som är enklast. Man kan ju ha ett värde som
+representerar hela Alban, och det är inte nödvändigtvis krångligt att
+få fram den detalj man behöver.  
+* Funktion som överför crio16 till fältvärden 
+- Kan bara returnera värden för ett register i taget.
+- Kan returnera "ogiltigt register", om adressdelen inte är giltig.
+- Bör rimligtvis kunna använda samma kod oavsett vilket register som
+  berörs.
+- Varje register är av en gemensam typ, men ändå olika.

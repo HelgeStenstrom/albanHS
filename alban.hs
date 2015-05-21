@@ -2,6 +2,7 @@
 -- Jag har ingen plan, utan jobbar på ett tag för att se hur långt jag kommer. 
 
 -- Helge Stenström 2015-04-15
+-- Helge Stenström 2015-05-21
 
 -- Se även http://www.barrelfish.org/, eller kanske snarare
 -- http://www.barrelfish.org/TN-002-Mackerel.pdf 
