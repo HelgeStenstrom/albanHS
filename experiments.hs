@@ -1,3 +1,4 @@
+import Data.Bits
 
 -- === experiment ============================
 data JValue = JString String
@@ -47,3 +48,16 @@ färgNummer 8 = Grå
 färgNummer 9 = Vit
 
 
+
+
+-- min Maybe
+
+data Kanske a = Inget | Bara a | Eventuellt a deriving (Show)
+
+
+----------------------
+
+data Vektor v = Vektor v v v deriving (Show)
+(+++) (Vektor a b c) (Vektor d e f) = Vektor (a+d) (b+e) (c+f)
+(++++) (Vektor (a) b c) (Vektor d e f) = Vektor (a+d) (b+e) (c + f)
+--instance Num (Vektor v)

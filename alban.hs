@@ -44,7 +44,10 @@ import Data.Bits
 -- valVcof (VcoF a b) = a + b
 -- valVcoFa (VcoFa a) = 0
 
-data Field = Field {value :: Int, lsbPos :: Int, width :: Int} deriving (Show)
+data Field = Field {value :: Int,
+                   lsbPos :: Int,
+                   width :: Int}
+                   deriving (Show)
 -- Denna definition har nackdelen att värdet måste definieras. Jag kanske bara vill definiera lsbPos och width.
 
 -- Exempelvis när man ska extrahera fält från ett registerord, givet
@@ -64,12 +67,12 @@ widthField (Field _ _ w) = w
 -- datatypen, eftersom vi inte får blanda ihop olika register.
 -- Man kan inte kopiera från ett register till ett annat.
 -- 
-data Reg3 = Reg3 {
+data Reg = Reg {
           fields :: [Field],
           address :: Address
           } deriving (Show)
--- xReg3 is VCO_F at address 1
-vcofReg3 = Reg3 [xfa, xfb] 1
+-- xReg is VCO_F at address 1
+vcofReg = Reg [xfa, xfb] 1
 
 -- The value a field contributes with i a register word, based on its LSB position and its own value.
 inPosition :: Field -> Int
@@ -83,14 +86,15 @@ xValuesFL = valuesFieldList[xfa, xfb]
 wordFL :: [Field] -> Int
 wordFL r = foldl (.|.) 0 (map inPosition r)
 
-wordReg3 :: Reg3 -> Int
-wordReg3 (Reg3 fs a) = (foldl (.|.) 0 (map inPosition fs)) .|. a
+wordReg :: Reg -> Int
+wordReg (Reg fs a) = (foldl (.|.) 0 (map inPosition fs)) .|. a
 
 -- Alternativ definition
-wordReg r =  (foldl (.|.) 0 (map inPosition (fields r))) .|. (address r)
+wordReg2 :: Reg -> Int
+wordReg2 r =  (foldl (.|.) 0 (map inPosition (fields r))) .|. (address r)
 
--- Denna funktion är redundant. Funktionen fields definieras genom Reg3.
-fieldsOf (Reg3 fs a) = fs
+-- Denna funktion är redundant. Funktionen fields definieras genom Reg.
+fieldsOf (Reg fs a) = fs
 
 type Address = Int
 
@@ -101,11 +105,31 @@ type Address = Int
 -- . Om fälten finns i en lista, kan man iterera över dem
 -- . Kanske man inte behöver iterera. Kanske Haskells mönstermatchning
 --   klarar biffen.
--- . Reg3 har en adressdel och en fältlista
+-- . Reg har en adressdel och en fältlista
 
 addressCrioWord w = w .&. 15
 
-exCWord w16 = 4
+exampleCrioWord w16 = 4
 
 pllPart w40 = ((shiftL 1 24) -1) .&. (shiftR w40 16 )
 crioPart w40 = 65535 .&. w40
+
+nameOfCrioWord w16 
+    | addressCrioWord w16 == 1 = "VCO_F"
+    | addressCrioWord w16 == 2 = "VCO_I"
+    | otherwise = "not yet defined"
+                                 
+
+f1OfCrioWord w16 
+    | addressCrioWord w16 == 1 = Just "VCO_F"
+    | otherwise = Nothing
+
+f2OfCrioWord w16 
+    | addressCrioWord w16 == 1 = Just (Reg [xfa, xfb] 1)
+    | otherwise = Nothing
+
+f3OfCrioWord w16 
+    | addressCrioWord w16 == 1 = Reg [xfa, xfb] 1
+    | otherwise = Reg [xfb, xfa] 17
+
+
