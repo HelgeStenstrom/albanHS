@@ -1,0 +1,15 @@
+# -*- mode: gitignore; -*-
+# Files that Git should not commit
+
+# För Emacs: se https://github.com/github/gitignore/blob/master/Global/Emacs.gitignore
+# och hämta inspiration därifrån. 
+
+# Emacs backup files
+# (Kanske Emacs inte skapar några backupfiler i ett directory som styrs av Git!)
+*~
+
+# Python compiled files
+*.pyc
+
+
+.coverage
