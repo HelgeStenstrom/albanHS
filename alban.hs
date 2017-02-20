@@ -59,12 +59,15 @@ data Field = Field {value :: Int,
 -- Exempelvis när man ska extrahera fält från ett registerord, givet
 -- fältens vidd och position, har man inga värden i förväg. Man vill ge fälten värden från registerordet.
 
-xfb = Field 8 5  5
 xfa = Field 7 11 5
+xfb = Field 8 5  5
+-- Field {value = 8, lsbPos = 5, width = 5}
 
 valField (Field v _ _ ) = v
 lsbField (Field _ pos _) = pos
 widthField (Field _ _ w) = w
+-- *Main> lsbField xfb
+-- 5
 
 type RegContents = [Field]
 

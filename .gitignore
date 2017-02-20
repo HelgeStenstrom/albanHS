@@ -13,3 +13,9 @@
 
 
 .coverage
+
+# Haskell files
+*.hi
+*.o
+*.exe
+
